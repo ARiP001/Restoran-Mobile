@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:cobaflutter/dashboard_page.dart';
-import 'package:cobaflutter/restoran_list.dart';
+import 'package:latihan_responsi/restoran_list.dart';
 
 
 class LoginPage extends StatefulWidget {

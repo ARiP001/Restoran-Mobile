@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cobaflutter/login_page.dart';
-import 'package:cobaflutter/register_page.dart';
+import 'package:latihan_responsi/login_page.dart';
+import 'package:latihan_responsi/register_page.dart';
 
 void main() {
   runApp(const MainApp());

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cobaflutter/restoran_model.dart';
+import 'package:latihan_responsi/restoran_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RestoranDetail extends StatefulWidget {
@@ -56,14 +56,14 @@ class _RestoranDetailState extends State<RestoranDetail> {
     } else {
       await prefs.remove(dataKey);
     }
-    // Debug: print all favorite keys and their values
-    print('--- SharedPreferences favorite keys ---');
-    for (var k in prefs.getKeys()) {
-      if (k.startsWith('favorite_')) {
-        print('$k: ${prefs.get(k)}');
-      }
-    }
-    print('--------------------------------------');
+    // // Debug: print all favorite keys and their values
+    // print('--- SharedPreferences favorite keys ---');
+    // for (var k in prefs.getKeys()) {
+    //   if (k.startsWith('favorite_')) {
+    //     print('$k: ${prefs.get(k)}');
+    //   }
+    // }
+    // print('--------------------------------------');
   }
 
   @override

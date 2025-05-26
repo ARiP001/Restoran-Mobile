@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:cobaflutter/restoran_model.dart';
-import 'package:cobaflutter/base_network.dart';
-import 'package:cobaflutter/restoran_detail.dart';
-import 'package:cobaflutter/restoran_favorite.dart';
+import 'package:latihan_responsi/restoran_model.dart';
+import 'package:latihan_responsi/base_network.dart';
+import 'package:latihan_responsi/restoran_detail.dart';
+import 'package:latihan_responsi/restoran_favorite.dart';
 
 class RestoranList extends StatelessWidget {
   const RestoranList({super.key, required this.username});

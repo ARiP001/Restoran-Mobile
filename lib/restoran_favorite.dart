@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:cobaflutter/restoran_detail.dart';
-import 'package:cobaflutter/restoran_model.dart';
+import 'package:latihan_responsi/restoran_detail.dart';
+import 'package:latihan_responsi/restoran_model.dart';
 
 class RestoranFavorite extends StatefulWidget {
   const RestoranFavorite({super.key});
@@ -88,74 +88,88 @@ class _RestoranFavoriteState extends State<RestoranFavorite> {
       appBar: AppBar(
         title: const Text('Favorite Restoran'),
       ),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : favoriteRestos.isEmpty
-              ? const Center(child: Text('Belum ada restoran favorit'))
-              : ListView.builder(
-                  itemCount: favoriteRestos.length,
-                  itemBuilder: (context, i) {
-                    final resto = favoriteRestos[i];
-                    return Card(
-                      color: const Color(0xFFF3EFFF),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+      body: _buildBody(),
+    );
+  }
+
+  Widget _buildBody() {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    
+    if (favoriteRestos.isEmpty) {
+      return const Center(child: Text('Belum ada restoran favorit'));
+    }
+    
+    return ListView.builder(
+      itemCount: favoriteRestos.length,
+      itemBuilder: (context, i) {
+        final resto = favoriteRestos[i];
+        return Card(
+          color: const Color(0xFFF3EFFF),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          elevation: 2,
+          child: ListTile(
+            contentPadding: const EdgeInsets.all(12),
+            leading: () {
+              if (resto['pictureId'] != null) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: Image.network(
+                    'https://restaurant-api.dicoding.dev/images/small/${resto['pictureId']}',
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                  ),
+                );
+              }
+              return const Icon(Icons.favorite, color: Colors.red);
+            }(),
+            title: Text(
+              resto['name'] ?? '',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            subtitle: () {
+              if (resto['city'] != null && resto['rating'] != null) {
+                return Text(
+                  '${resto['city']} • Rating: ${resto['rating']}',
+                  style: const TextStyle(fontSize: 15),
+                );
+              }
+              return null;
+            }(),
+            onTap: () {
+              if (resto['id'] != null &&
+                  resto['name'] != null &&
+                  resto['pictureId'] != null &&
+                  resto['city'] != null &&
+                  resto['rating'] != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RestoranDetail(
+                      restoran: Restoran(
+                        id: resto['id'],
+                        name: resto['name'],
+                        description: '',
+                        pictureId: resto['pictureId'],
+                        city: resto['city'],
+                        rating: double.tryParse(resto['rating'].toString()) ?? 0.0,
                       ),
-                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      elevation: 2,
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.all(12),
-                        leading: resto['pictureId'] != null
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  'https://restaurant-api.dicoding.dev/images/small/${resto['pictureId']}',
-                                  width: 50,
-                                  height: 50,
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                            : const Icon(Icons.favorite, color: Colors.red),
-                        title: Text(
-                          resto['name'] ?? '',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        subtitle: resto['city'] != null && resto['rating'] != null
-                            ? Text(
-                                '${resto['city']} • Rating: ${resto['rating']}',
-                                style: const TextStyle(fontSize: 15),
-                              )
-                            : null,
-                        onTap: () {
-                          if (resto['id'] != null &&
-                              resto['name'] != null &&
-                              resto['pictureId'] != null &&
-                              resto['city'] != null &&
-                              resto['rating'] != null) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RestoranDetail(
-                                  restoran: Restoran(
-                                    id: resto['id'],
-                                    name: resto['name'],
-                                    description: '',
-                                    pictureId: resto['pictureId'],
-                                    city: resto['city'],
-                                    rating: double.tryParse(resto['rating'].toString()) ?? 0.0,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                      ),
-                    );
-                  },
-                ),
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+        );
+      },
     );
   }
 }
